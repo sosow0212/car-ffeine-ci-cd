@@ -83,7 +83,7 @@ jobs:
 
       - name: docker run
         run: |
-          sudo docker run -d -p 8080:8080 -e DB_URL=${DB_URL} -e DB_USER=${DB_USER} -e DB_PASSWORD=${DB_PASSWORD} --name backend woowacarffeine/backend:latest
+          sudo docker run -d -p 8080:8080 -e secret_key=${{ secrets.JASYPT_KEY }} --name backend woowacarffeine/backend:latest
         env:
           DB_URL: ${{ secrets.DB_URL }}
           DB_USER: ${{ secrets.DB_USER }}
