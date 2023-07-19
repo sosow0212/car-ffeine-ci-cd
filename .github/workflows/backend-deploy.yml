@@ -70,23 +70,30 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
+          
+          script: |
+            sudo docker stop backend || true
+            sudo docker rm backend || true
+            sudo docker pull woowacarffeine/backend:latest
+            sudo docker run -d -p 8080:8080 -e ENCRYPT_KEY=${{ secrets.JASYPT_KEY }} --name backend woowacarffeine/backend:latest
+            sudo docker image prune -f
+            
+            
+#       - name: docker stop
+#         run: |
+#           sudo docker stop backend || true
+#           sudo docker rm backend || true
 
+#       - name: docker pull
+#         run: |
+#           sudo docker pull woowacarffeine/backend:latest
 
-      - name: docker stop
-        run: |
-          sudo docker stop backend || true
-          sudo docker rm backend || true
+#       - name: docker run
+#         run: |
+#           sudo docker run -d -p 8080:8080 -e ENCRYPT_KEY=${{ secrets.JASYPT_KEY }} --name backend woowacarffeine/backend:latest
+#         env:
+#           JASYPT_KEY : ${{ secrets.JASYPT_KEY }}
 
-      - name: docker pull
-        run: |
-          sudo docker pull woowacarffeine/backend:latest
-
-      - name: docker run
-        run: |
-          sudo docker run -d -p 8080:8080 -e ENCRYPT_KEY=${{ secrets.JASYPT_KEY }} --name backend woowacarffeine/backend:latest
-        env:
-          JASYPT_KEY : ${{ secrets.JASYPT_KEY }}
-
-      - name: clean docker images
-        run: |
-          sudo docker image prune -f
+#       - name: clean docker images
+#         run: |
+#           sudo docker image prune -f
