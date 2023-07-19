@@ -27,6 +27,6 @@ jasypt:
 
 api:
   service_key:
-  ENC(qCPTBO4uzXuWoTJ4vxJ6vNkueRbpj/bee/CMo1mNt9RsjK8hobh6hZLTCWC2qa6dR0S/bDpTgTBV9+HXZ2lYPrOQmyFUrYAznn3iGn+n7fxX2O5rqAgirimQgyFxxem61hJmSa2zyxE=)
+    ENC(qCPTBO4uzXuWoTJ4vxJ6vNkueRbpj/bee/CMo1mNt9RsjK8hobh6hZLTCWC2qa6dR0S/bDpTgTBV9+HXZ2lYPrOQmyFUrYAznn3iGn+n7fxX2O5rqAgirimQgyFxxem61hJmSa2zyxE=)
 initialize-charge:
   enabled: true
