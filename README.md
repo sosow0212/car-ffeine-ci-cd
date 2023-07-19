@@ -20,7 +20,7 @@ dsa123123
         <img src="https://avatars.githubusercontent.com/u/108778921?v=4" alt="야미(이다인) 프로필" />
       </a>
     </td>
-  </tr>
+  </tr>dsa
   <tr>
     <td align="center">
       <a href="https://github.com/gabrielyoon7" target="_blank">
