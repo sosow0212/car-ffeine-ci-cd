@@ -1,12 +1,16 @@
 name: deploy
 
 on:
-  push:
+  pull_request:
     branches:
-      - develop
-
+      - release
+    paths:
+      - backend/**
 
 jobs:
+  test:
+    uses: ./.github/workflows/backend-test-when-pr.yml
+
   docker-build:
     runs-on: ubuntu-latest
     defaults:
@@ -68,8 +72,8 @@ jobs:
         env:
           JASYPT_KEY: ${{ secrets.JASYPT_KEY }}
           DATABASE_URL: ${{secrets.DB_URL}}
-          DATABASE_USERNAME : ${{ secrets.DB_USER }}
-          DATABASE_PASSWORD : ${{ secrets.DB_PASSWORD }}
+          DATABASE_USERNAME: ${{ secrets.DB_USER }}
+          DATABASE_PASSWORD: ${{ secrets.DB_PASSWORD }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
@@ -81,6 +85,13 @@ jobs:
             sudo docker stop backend || true
             sudo docker rm backend || true
             sudo docker pull woowacarffeine/backend:latest
-            sudo docker run -d -p 8080:8080 -e DATABASE_URL=${{secrets.DB_URL}} -e DATABASE_USERNAME=${{ secrets.DB_USER }} -e DATABASE_PASSWORD=${{ secrets.DB_PASSWORD }} -e ENCRYPT_KEY=${{ secrets.JASYPT_KEY }} --name backend woowacarffeine/backend:latest
+            
+            sudo docker run -d -p 8080:8080 \
+            -e "DATABASE_URL=jdbc:mysql://192.168.1.162:3306/charge?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true" \
+            -e "DATABASE_USERNAME=carffeine" \
+            -e "DATABASE_PASSWORD=Syummyzzang2!" \
+            -e "ENCRYPT_KEY=carffeineKey!!" \
+            --name backend \
+            woowacarffeine/backend:latest
+  
             sudo docker image prune -f
-
