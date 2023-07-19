@@ -66,36 +66,21 @@ jobs:
       - name: Join EC2 dev server
         uses: appleboy/ssh-action@master
         env:
-           JASYPT_KEY : ${{ secrets.JASYPT_KEY }}
+          JASYPT_KEY: ${{ secrets.JASYPT_KEY }}
+          DATABASE_URL: ${{secrets.DB_URL}}
+          DATABASE_USERNAME : ${{ secrets.DB_USER }}
+          DATABASE_PASSWORD : ${{ secrets.DB_PASSWORD }}
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-        
+          envs: JASYPT_KEY,DATABASE_URL,DATABASE_USERNAME,DATABASE_PASSWORD
+
           script: |
             sudo docker stop backend || true
             sudo docker rm backend || true
             sudo docker pull woowacarffeine/backend:latest
-            sudo docker run -d -p 8080:8080 -e ENCRYPT_KEY=${{ secrets.JASYPT_KEY }} --name backend woowacarffeine/backend:latest
+            sudo docker run -d -p 8080:8080 -e DATABASE_URL=${{secrets.DB_URL}} DATABASE_USERNAME=${{ secrets.DB_USER }} DATABASE_PASSWORD=${{ secrets.DB_PASSWORD }} ENCRYPT_KEY=${{ secrets.JASYPT_KEY }} --name backend woowacarffeine/backend:latest
             sudo docker image prune -f
-            
-            
-#       - name: docker stop
-#         run: |
-#           sudo docker stop backend || true
-#           sudo docker rm backend || true
 
-#       - name: docker pull
-#         run: |
-#           sudo docker pull woowacarffeine/backend:latest
-
-#       - name: docker run
-#         run: |
-#           sudo docker run -d -p 8080:8080 -e ENCRYPT_KEY=${{ secrets.JASYPT_KEY }} --name backend woowacarffeine/backend:latest
-#         env:
-#           JASYPT_KEY : ${{ secrets.JASYPT_KEY }}
-
-#       - name: clean docker images
-#         run: |
-#           sudo docker image prune -f
