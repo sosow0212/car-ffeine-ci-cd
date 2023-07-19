@@ -1,11 +1,10 @@
 name: deploy
 
 on:
-  pull_request:
-    push:
+  push:
+    branches:
       - main
-    paths:
-      - backend/**
+
 
 jobs:
   test:
